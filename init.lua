@@ -16,13 +16,21 @@ vim.pack.add({
 })
 
 vim.lsp.config.verible = {
-  cmd = { "verible-verilog-ls" },
+  cmd = {
+		"verible-verilog-ls",
+		"--nopush_diagnostic_notifications",
+    },
   filetypes = { "systemverilog" },
   root_markers = { ".git", "verible.rules" },
 }
 
 vim.lsp.enable("verible")
 
-vim.keymap.set("n", "ff", vim.diagnostic.open_float)
+local opts = { noremap=true, silent=true }
+vim.keymap.set('n', '<space>e', vim.diagnostic.open_float, opts)
+vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
+vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
+vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist, opts)
+vim.keymap.set('n', '<space>a', vim.lsp.buf.code_action, bufopts)
 
 vim.opt.signcolumn = "yes"
